@@ -8,14 +8,69 @@
 
     <!-- Don't use this in production: -->
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div id="root"></div>
     <script type="text/babel">
 
+      function Title(props){
+        return(
+          <div>
+          <h1>{props.title}</h1>
+          <p>Edited {props.count}</p>
+          </div>
+        )
+      }
+
+     //class Component start
+      class HotNews extends React.Component{
+        //constructor start
+        constructor(props){
+          super(props);
+          this.state = {
+            totalEditCount: 0
+          };
+
+        }  //constructor end
+          //edit start
+        edit(){
+          // alert("edit button clicked");
+          this.setState({totalEditCount: this.state.totalEditCount + 1
+          });
+         }  //edit end
+        delete(){
+          alert("delete button clicked");
+        }
+        render(){
+          const props = this.props;
+        //  props.title = "another title" not possible as immutable, should use state
+          const totalEditCount = this.state.totalEditCount;
+          return(
+            <div className="newsContainer">
+              <Title title = {props.title} count= {totalEditCount} />
+              <p>{props.children}</p>
+              <div className="action">
+              <button className="edit" onClick={()=>this.edit()}>Edit</button>
+              <button className="delete" onClick={()=>this.delete()}>Delete</button>
+            </div>
+
+            {!!totalEditCount &&(<p>total edit clicked {totalEditCount}</p>)}
+
+            </div>
+          )
+        }
+
+      }
+
       ReactDOM.render(
-        <h1>Hello,ruhi!</h1>,
-        document.getElementById('root')
+        <div className="newsContainer">
+          <HotNews title="news 1">Hi my name is ruhi</HotNews>
+          <HotNews title="news 2">I am 23 years old</HotNews>
+
+        </div>
+
+        ,document.getElementById('root')
       );
 
     </script>
